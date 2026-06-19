@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rali Indhu — Backend Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f8fa;
+      --border: #e3e6eb;
+      --navy: #1a2b4a;
+      --navy-light: #2d4570;
+      --blue: #2563eb;
+      --blue-light: #eef2ff;
+      --text: #1c2230;
+      --muted: #5b6472;
+      --muted-light: #97a0ad;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 4rem;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      padding: 0.5rem 1.2rem;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--blue); }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 9rem 4rem 4rem;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--blue);
+      background: var(--blue-light);
+      border-radius: 2rem;
+      padding: 0.35rem 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #16a34a;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      margin-bottom: 1.1rem;
+    }
+
+    h1 .accent { color: var(--blue); }
+
+    .hero-sub {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.6rem;
+      border-radius: 0.4rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+      border: 1px solid var(--navy);
+    }
+
+    .btn-primary:hover { background: var(--blue); border-color: var(--blue); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: var(--navy); }
+
+    /* ---- HERO CARD: "schema" visual ---- */
+    .hero-visual {
+      background: var(--navy);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: #cdd6e8;
+      box-shadow: 0 20px 50px -15px rgba(26,43,74,0.35);
+    }
+
+    .hero-visual .dots { display: flex; gap: 6px; margin-bottom: 1rem; }
+    .hero-visual .dots span { width: 9px; height: 9px; border-radius: 50%; background: #3a4d6f; }
+
+    .hero-visual .line { margin: 0.15rem 0; white-space: pre; }
+    .hero-visual .kw { color: #7aa2f7; }
+    .hero-visual .str { color: #9ece6a; }
+    .hero-visual .com { color: #5b6472; }
+    .hero-visual .fn { color: #e0af68; }
+
+    /* ---- STATS ---- */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1280px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      padding: 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted-light);
+      margin-top: 0.2rem;
+    }
+
+    /* ---- SECTION COMMON ---- */
+    section.block {
+      padding: 5rem 4rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 3rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---- SKILLS ---- */
+    .skills-section { background: var(--surface); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      padding: 1.6rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px -12px rgba(37,99,235,0.25);
+    }
+
+    .skill-card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .skill-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted-light);
+      font-weight: 600;
+    }
+
+    .skill-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .skill-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.22rem 0.55rem;
+      background: var(--blue-light);
+      border-radius: 0.25rem;
+      color: var(--navy-light);
+      font-weight: 500;
+    }
+
+    /* ---- EXPERIENCE ---- */
+    .exp-timeline {
+      position: relative;
+      padding-left: 2.2rem;
+    }
+
+    .exp-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.4rem; bottom: 0.4rem;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .exp-item {
+      position: relative;
+      padding-bottom: 2.8rem;
+    }
+
+    .exp-item:last-child { padding-bottom: 0; }
+
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -2.55rem; top: 0.35rem;
+      width: 12px; height: 12px;
+      background: #fff;
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+    }
+
+    .exp-period {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.74rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.15rem;
+    }
+
+    .exp-company {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.7rem;
+      font-weight: 500;
+    }
+
+    .exp-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 640px;
+    }
+
+    /* ---- PROJECTS ---- */
+    .projects-section { background: var(--surface); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 12px 30px -15px rgba(26,43,74,0.2);
+    }
+
+    .project-head {
+      background: var(--navy);
+      padding: 1.4rem 1.8rem;
+    }
+
+    .project-domain {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: #9fb3d6;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .project-role {
+      font-size: 0.82rem;
+      color: #cdd6e8;
+      margin-top: 0.2rem;
+    }
+
+    .project-body { padding: 1.8rem; }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-points {
+      list-style: none;
+      margin-bottom: 1.4rem;
+    }
+
+    .project-points li {
+      font-size: 0.84rem;
+      color: var(--text);
+      padding: 0.32rem 0;
+      padding-left: 1.3rem;
+      position: relative;
+    }
+
+    .project-points li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-size: 0.8rem;
+    }
+
+    /* ---- EDUCATION ---- */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .edu-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      border-radius: 0.5rem;
+      padding: 1.5rem 1.8rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .edu-card:hover { box-shadow: 0 8px 24px -14px rgba(26,43,74,0.25); }
+
+    .edu-score {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .edu-degree {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .edu-school {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ---- CONTACT ---- */
+    .contact-section {
+      text-align: center;
+      background: var(--navy);
+      border-radius: 1rem;
+      padding: 4rem 3rem;
+      max-width: 1280px;
+      margin: 0 auto 5rem;
+    }
+
+    .contact-section .section-eyebrow { color: #93b4ff; }
+    .contact-section .section-title { color: #fff; margin-bottom: 1rem; }
+
+    .contact-section p {
+      color: #c2cee5;
+      font-size: 0.95rem;
+      max-width: 480px;
+      margin: 0 auto 2.2rem;
+    }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .contact-card:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted-light);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ---- SCROLL REVEAL ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section.block { padding: 3.5rem 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-section { margin: 0 1.5rem 4rem; padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">indhu<span>.dev</span></div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Open to backend roles</div>
+      <h1>Rali Indhu<br /><span class="accent">Backend Developer</span></h1>
+      <p class="hero-sub">
+        1 year of experience building backend systems with Python Flask and PostgreSQL.
+        I design efficient database schemas, optimise queries at scale, and deploy reliable
+        APIs on AWS, Render, and Vercel.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="mailto:indhurali26@gmail.com" class="btn btn-outline">Email Me</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="line"><span class="com">-- schema.sql</span></div>
+      <div class="line"><span class="kw">CREATE TABLE</span> <span class="fn">developer</span> (</div>
+      <div class="line">&nbsp;&nbsp;name        <span class="str">'Rali Indhu'</span>,</div>
+      <div class="line">&nbsp;&nbsp;role        <span class="str">'Backend Developer'</span>,</div>
+      <div class="line">&nbsp;&nbsp;stack       <span class="str">'Flask, PostgreSQL'</span>,</div>
+      <div class="line">&nbsp;&nbsp;experience  <span class="str">'1 year'</span>,</div>
+      <div class="line">&nbsp;&nbsp;status      <span class="str">'available'</span></div>
+      <div class="line">);</div>
+      <div class="line">&nbsp;</div>
+      <div class="line"><span class="kw">SELECT</span> * <span class="kw">FROM</span> developer</div>
+      <div class="line"><span class="kw">WHERE</span> status = <span class="str">'available'</span>;</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">1+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Live Projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">82%</div>
+      <div class="stat-label">B.Tech IT Score</div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills" class="block skills-section">
+    <div class="section-eyebrow">What I work with</div>
+    <div class="section-title">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-top">
+          <span class="skill-num">01</span>
+          <h3>Backend Development</h3>
+        </div>
+        <p>Building REST APIs, handling real-time data with WebSockets, and writing backend logic for job management, events, and notifications.</p>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Flask</span>
+          <span class="tag">REST API</span>
+          <span class="tag">WebSockets</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-top">
+          <span class="skill-num">02</span>
+          <h3>Database Engineering</h3>
+        </div>
+        <p>Designing normalised schemas with proper constraints, writing efficient SQL for data retrieval and reporting, and optimising for large datasets.</p>
+        <div class="skill-tags">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Neon DB</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Indexing</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-top">
+          <span class="skill-num">03</span>
+          <h3>Cloud & Deployment</h3>
+        </div>
+        <p>Deploying and managing applications across cloud platforms, ensuring smooth integration between frontend and backend systems.</p>
+        <div class="skill-tags">
+          <span class="tag">AWS</span>
+          <span class="tag">Render</span>
+          <span class="tag">Vercel</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-top">
+          <span class="skill-num">04</span>
+          <h3>System Design</h3>
+        </div>
+        <p>Implementing secure authentication, role-based access control, pagination, filtering, and search functionality at scale.</p>
+        <div class="skill-tags">
+          <span class="tag">Auth / RBAC</span>
+          <span class="tag">Pagination</span>
+          <span class="tag">Filtering</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="block">
+    <div class="section-eyebrow">Career</div>
+    <div class="section-title">Work Experience</div>
+    <div class="exp-timeline">
+      <div class="exp-item reveal">
+        <div class="exp-period">Feb 2026 — Present</div>
+        <div class="exp-title">PostgreSQL & Backend Developer</div>
+        <div class="exp-company">IDB — I Don't Blabber</div>
+        <div class="exp-desc">Developing and maintaining backend systems, managing PostgreSQL databases, designing schemas, and optimising queries for production-grade applications.</div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-period">Nov 2024 — Jun 2025</div>
+        <div class="exp-title">Backend Developer</div>
+        <div class="exp-company">Rapid Care</div>
+        <div class="exp-desc">Built and maintained backend APIs, handled database architecture, and contributed to core product features.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="block projects-section">
+    <div class="section-eyebrow">What I've built</div>
+    <div class="section-title">Projects</div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-head">
+          <div class="project-domain">Recruitment / Job Portal</div>
+          <div class="project-name">CareerNextInd.com</div>
+          <div class="project-role">Backend Developer · Internal Product</div>
+        </div>
+        <div class="project-body">
+          <div class="project-desc">
+            A smart career discovery and hiring platform connecting job seekers and recruiters, with real-time notifications, event management, and user-specific dashboards built to handle large volumes of data.
+          </div>
+          <ul class="project-points">
+            <li>Built and maintained REST APIs for job listings, events, and user workflows</li>
+            <li>Implemented authentication and role-based access control</li>
+            <li>Handled real-time notifications using WebSockets</li>
+            <li>Designed database schemas with proper normalisation, indexing, and constraints</li>
+            <li>Implemented pagination, filtering, and search functionalities</li>
+          </ul>
+          <div class="skill-tags">
+            <span class="tag">Python Flask</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">WebSockets</span>
+            <span class="tag">RBAC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-head">
+          <div class="project-domain">Healthcare · Client: Mike Smith</div>
+          <div class="project-name">Hospital Revenue Optimisation — iCS &amp; aCS</div>
+          <div class="project-role">Backend Developer</div>
+        </div>
+        <div class="project-body">
+          <div class="project-desc">
+            A billing optimisation system for Australian hospitals, where patients are billed post-discharge through insurance. The system automates DRG (Diagnosis-Related Group) value generation for accurate, optimised billing.
+          </div>
+          <ul class="project-points">
+            <li>Processed patient records and medical data to generate DRG billing values</li>
+            <li>Modelled distinct billing workflows for India vs. Australia healthcare systems</li>
+            <li>Enabled hospital-insurance negotiation flows within the application</li>
+            <li>Built logic for bill adjustments and corrections post-discharge</li>
+          </ul>
+          <div class="skill-tags">
+            <span class="tag">Python Flask</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">DRG Billing</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="block">
+    <div class="section-eyebrow">Academic background</div>
+    <div class="section-title">Education</div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-score">82.02%</div>
+        <div class="edu-degree">B.Tech — Information Technology</div>
+        <div class="edu-school">GIET Engineering College, Rajahmundry</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-score">90.00%</div>
+        <div class="edu-degree">Intermediate</div>
+        <div class="edu-school">Sri Sai Iswarya Women's Junior College, Samalkot</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-score">97.01%</div>
+        <div class="edu-degree">SSC (10th Standard)</div>
+        <div class="edu-school">Z.P.G.H. School, Samalkot</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="block contact-section">
+    <div class="section-eyebrow">Let's connect</div>
+    <div class="section-title">Get in Touch</div>
+    <p>Open to backend developer roles, freelance projects, and collaborations. Reach out anytime.</p>
+    <div class="contact-cards">
+      <a href="mailto:indhurali26@gmail.com" class="contact-card">✉️ indhurali26@gmail.com</a>
+      <a href="tel:7842275184" class="contact-card">📱 +91 7842275184</a>
+    </div>
+  </section>
+
+  <footer>
+    Built by Rali Indhu © 2025
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 70);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
