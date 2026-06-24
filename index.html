@@ -29,7 +29,6 @@
       line-height: 1.6;
     }
 
-    /* ---- NAV ---- */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -82,7 +81,6 @@
 
     .nav-cta:hover { background: var(--blue); }
 
-    /* ---- HERO ---- */
     .hero {
       padding: 9rem 4rem 4rem;
       display: grid;
@@ -166,7 +164,6 @@
 
     .btn-outline:hover { border-color: var(--navy); }
 
-    /* ---- HERO CARD: "schema" visual ---- */
     .hero-visual {
       background: var(--navy);
       border-radius: 0.75rem;
@@ -179,14 +176,12 @@
 
     .hero-visual .dots { display: flex; gap: 6px; margin-bottom: 1rem; }
     .hero-visual .dots span { width: 9px; height: 9px; border-radius: 50%; background: #3a4d6f; }
-
     .hero-visual .line { margin: 0.15rem 0; white-space: pre; }
     .hero-visual .kw { color: #7aa2f7; }
     .hero-visual .str { color: #9ece6a; }
     .hero-visual .com { color: #5b6472; }
     .hero-visual .fn { color: #e0af68; }
 
-    /* ---- STATS ---- */
     .stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -217,7 +212,6 @@
       margin-top: 0.2rem;
     }
 
-    /* ---- SECTION COMMON ---- */
     section.block {
       padding: 5rem 4rem;
       max-width: 1280px;
@@ -242,7 +236,6 @@
       letter-spacing: -0.01em;
     }
 
-    /* ---- SKILLS ---- */
     .skills-section { background: var(--surface); }
 
     .skills-grid {
@@ -306,7 +299,6 @@
       font-weight: 500;
     }
 
-    /* ---- EXPERIENCE ---- */
     .exp-timeline {
       position: relative;
       padding-left: 2.2rem;
@@ -365,12 +357,11 @@
       max-width: 640px;
     }
 
-    /* ---- PROJECTS ---- */
     .projects-section { background: var(--surface); }
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 2rem;
     }
 
@@ -387,10 +378,18 @@
       box-shadow: 0 12px 30px -15px rgba(26,43,74,0.2);
     }
 
+    /* Special highlight for the Digital Heroes project */
+    .project-card.featured {
+      border: 2px solid var(--blue);
+      box-shadow: 0 8px 30px -10px rgba(37,99,235,0.2);
+    }
+
     .project-head {
       background: var(--navy);
       padding: 1.4rem 1.8rem;
     }
+
+    .project-head.green { background: #064e3b; }
 
     .project-domain {
       font-family: 'IBM Plex Mono', monospace;
@@ -400,6 +399,8 @@
       letter-spacing: 0.08em;
       margin-bottom: 0.4rem;
     }
+
+    .project-head.green .project-domain { color: #6ee7b7; }
 
     .project-name {
       font-size: 1.25rem;
@@ -412,6 +413,8 @@
       color: #cdd6e8;
       margin-top: 0.2rem;
     }
+
+    .project-head.green .project-role { color: #a7f3d0; }
 
     .project-body { padding: 1.8rem; }
 
@@ -443,7 +446,40 @@
       font-size: 0.8rem;
     }
 
-    /* ---- EDUCATION ---- */
+    .dh-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #2563eb, #16a34a);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .dh-badge:hover { opacity: 0.85; }
+
+    .live-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      margin-top: 0.5rem;
+      border: 1px solid var(--blue);
+      border-radius: 0.3rem;
+      padding: 0.3rem 0.8rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .live-link:hover { background: var(--blue); color: #fff; }
+
     .edu-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -480,7 +516,6 @@
       color: var(--muted);
     }
 
-    /* ---- CONTACT ---- */
     .contact-section {
       text-align: center;
       background: var(--navy);
@@ -527,7 +562,6 @@
       transform: translateY(-2px);
     }
 
-    /* ---- FOOTER ---- */
     footer {
       text-align: center;
       padding: 2rem;
@@ -537,7 +571,6 @@
       font-family: 'IBM Plex Mono', monospace;
     }
 
-    /* ---- SCROLL REVEAL ---- */
     .reveal {
       opacity: 0;
       transform: translateY(24px);
@@ -546,7 +579,6 @@
 
     .reveal.visible { opacity: 1; transform: none; }
 
-    /* ---- MOBILE ---- */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
       .stats { grid-template-columns: repeat(2, 1fr); }
@@ -564,7 +596,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-logo">indhu<span>.dev</span></div>
     <ul class="nav-links">
@@ -576,7 +607,6 @@
     <a href="#contact" class="nav-cta">Contact</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div>
       <div class="hero-eyebrow">Open to backend roles</div>
@@ -608,7 +638,6 @@
     </div>
   </section>
 
-  <!-- STATS -->
   <div class="stats">
     <div class="stat">
       <div class="stat-num">1+</div>
@@ -619,7 +648,7 @@
       <div class="stat-label">Companies</div>
     </div>
     <div class="stat">
-      <div class="stat-num">2</div>
+      <div class="stat-num">3</div>
       <div class="stat-label">Live Projects</div>
     </div>
     <div class="stat">
@@ -628,7 +657,6 @@
     </div>
   </div>
 
-  <!-- SKILLS -->
   <section id="skills" class="block skills-section">
     <div class="section-eyebrow">What I work with</div>
     <div class="section-title">Technical Skills</div>
@@ -689,7 +717,6 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
   <section id="experience" class="block">
     <div class="section-eyebrow">Career</div>
     <div class="section-title">Work Experience</div>
@@ -710,12 +737,47 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects" class="block projects-section">
     <div class="section-eyebrow">What I've built</div>
     <div class="section-title">Projects</div>
     <div class="projects-grid">
 
+      <!-- GST Calculator — Digital Heroes Trial (NEW) -->
+      <div class="project-card featured reveal">
+        <div class="project-head green">
+          <div class="project-domain">Free Web Tool · Digital Heroes Trial</div>
+          <div class="project-name">GST Invoice Calculator</div>
+          <div class="project-role">Solo Developer · Deployed on Vercel</div>
+        </div>
+        <div class="project-body">
+          <a class="dh-badge" href="https://digitalheroesco.com" target="_blank" rel="noopener">
+            ⚡ Built for Digital Heroes
+          </a>
+          <div class="project-desc">
+            A fully free, browser-based GST invoice calculator built as part of the Digital Heroes developer trial. Handles intra-state (CGST + SGST) and inter-state (IGST) billing, generates a print-ready invoice, and supports multiple GST rates and line items — no login, no fees.
+          </div>
+          <ul class="project-points">
+            <li>Real-time GST breakdown — CGST, SGST, IGST with correct tax computation</li>
+            <li>Multi-item invoice with per-item GST rate selection (0%, 5%, 12%, 18%, 28%)</li>
+            <li>Intra-state vs Inter-state toggle for accurate tax type selection</li>
+            <li>Print-ready invoice preview with seller & buyer details</li>
+            <li>Zero cost — deployed free on Vercel, no paid subscriptions</li>
+          </ul>
+          <div class="skill-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Vercel</span>
+            <span class="tag">GST Logic</span>
+          </div>
+          <br/>
+          <a class="live-link" href="https://gst-invoice-calculator-orpin.vercel.app/" target="_blank" rel="noopener">
+            🔗 View Live Tool
+          </a>
+        </div>
+      </div>
+
+      <!-- CareerNextInd -->
       <div class="project-card reveal">
         <div class="project-head">
           <div class="project-domain">Recruitment / Job Portal</div>
@@ -742,6 +804,7 @@
         </div>
       </div>
 
+      <!-- Hospital Revenue -->
       <div class="project-card reveal">
         <div class="project-head">
           <div class="project-domain">Healthcare · Client: Mike Smith</div>
@@ -769,7 +832,6 @@
     </div>
   </section>
 
-  <!-- EDUCATION -->
   <section id="education" class="block">
     <div class="section-eyebrow">Academic background</div>
     <div class="section-title">Education</div>
@@ -792,7 +854,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact" class="block contact-section">
     <div class="section-eyebrow">Let's connect</div>
     <div class="section-title">Get in Touch</div>
